@@ -3,55 +3,19 @@ const util = require("util");
 const fs = require("fs");
 const path = require("path");
 
-const watchDir = "./watch";
-const tolerance = 1000 * 6; // 6 seconds for testing
-
-const extensions = ["test.js", "spec.js"];
-const excludeFiles = [
-  ".git",
-  "bin",
-  "node_modules",
-  ".gitignore",
-  "package.json",
-  "package-lock.json",
-];
-
 class Watcher extends events.EventEmitter {
-  constructor(watchDir) {
+  constructor(watchDir, fileExtensions, excludeFiles, interval, callback) {
     super();
     this._watchDir = watchDir;
-    this._processes = new Map();
-    this._fileList = [];
+    this._interval = interval;
+    this._excludeFiles = excludeFiles;
+    this._fileExtensions = fileExtensions;
+    this._callback = callback;
   }
-
-  process(eventType, filename) {
-    if (!watcher.isFileProcessing(eventType, filename)) {
-      console.log(`event: ${eventType}, filename: ${filename}`);
-      this._processes.set(filename, { eventType, executed: new Date() });
-      setTimeout(() => {
-        this._processes.delete(filename);
-      }, tolerance);
-    }
-  }
-
-  isFileProcessing(eventType, filename) {
-    let isProcessing = false;
-    const process = this._processes.get(filename);
-    if (process) {
-      const now = new Date();
-      const diff = now - new Date(process.executed);
-      if (diff < tolerance) {
-        isProcessing = true;
-      }
-    }
-    return isProcessing;
-  }
-
-  removeProcess(eventType, process) {}
 
   containsExtension(extension) {
-    for (var i = 0; i < fileExtensions.length; i++) {
-      if (fileExtensions[i] === extension) {
+    for (var i = 0; i < this._fileExtensions.length; i++) {
+      if (this._fileExtensions[i] === extension) {
         return true;
       }
     }
@@ -61,7 +25,7 @@ class Watcher extends events.EventEmitter {
   testFile(filename) {
     var pos = filename.indexOf(".");
     var test = filename.substr(pos + 1);
-    if (containsExtension(test)) {
+    if (this.containsExtension(test)) {
       return true;
     } else {
       return false;
@@ -74,11 +38,11 @@ class Watcher extends events.EventEmitter {
 
     for (let i = 0; i < files.length; i++) {
       const filename = files[i];
-      if (!excludeFiles.includes(filename)) {
+      if (!this._excludeFiles.includes(filename)) {
         let file = path.join(dir, filename);
         if (fs.statSync(file).isDirectory()) {
           try {
-            result = watcher.getAllFiles(
+            result = this.getAllFiles(
               file,
               extn,
               fs.readdirSync(file),
@@ -90,7 +54,7 @@ class Watcher extends events.EventEmitter {
             continue;
           }
         } else {
-          if (watcher.testFile(file)) {
+          if (this.testFile(file)) {
             result.push(file);
           }
         }
@@ -103,21 +67,28 @@ class Watcher extends events.EventEmitter {
   start() {
     var watcher = this;
     const list = watcher.getAllFiles(__dirname, ".js");
-    // fs.watch(
-    //   watchDir,
-    //   {
-    //     persistent: true,
-    //     recursive: true,
-    //     encoding: "utf8",
-    //   },
-    //   function (eventType, filename) {
-    //     watcher.process(eventType, filename);
-    //   }
-    // );
+    if (list.length > 0) {
+      list.forEach((file) => {
+        fs.watchFile(
+          file,
+          {
+            bigint: false,
+            persistent: true,
+            interval: this._interval,
+          },
+          (curr, prev) => {
+            this._callback(file, curr, prev);
+          }
+        );
+      });
+    } else {
+      console.log("No Test files detected");
+    }
   }
 
   // end of class
 }
 
-const watcher = new Watcher(watchDir);
-watcher.start();
+// const watcher = new Watcher(watchDir);
+// watcher.start();
+module.exports = Watcher;

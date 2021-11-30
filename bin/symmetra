@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-process.title = "Symmetra";
-//require("../lib/cli/cli").main();
-require("../index").start();
