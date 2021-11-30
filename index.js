@@ -79,7 +79,7 @@ class Watcher extends events.EventEmitter {
     const list = watcher.getAllFiles(this._watchDir, ".js");
     this._fileListCallback(list);
     if (list.length > 0) {
-      if (_this.doWatch) {
+      if (this._doWatch) {
         list.forEach((file) => {
           fs.watchFile(
             file,
