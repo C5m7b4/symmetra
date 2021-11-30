@@ -69,6 +69,7 @@ module.exports = {
     ".gitignore",
     "package.json",
     "package-lock.json",
+    ".github",
   ],
   interval: 4000,
 };
