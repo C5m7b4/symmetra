@@ -6,6 +6,7 @@ const excludeFiles = [
   ".gitignore",
   "package.json",
   "package-lock.json",
+  ".github",
 ];
 
 module.exports = {
