@@ -1,0 +1,28 @@
+{
+  "name": "symmetra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "entryPoint":"index.js",
+  "publishConfig":{
+    "access":"public"
+  },
+  "bin":{
+    "symmetra":"./bin/symmetra"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "anymatch": "^3.1.2",
+    "braces": "^3.0.2",
+    "glob-parent": "^6.0.2",
+    "is-binary-path": "^2.1.0",
+    "is-glob": "^4.0.3",
+    "normalize-path": "^3.0.0",
+    "readdirp": "^3.6.0"
+  }
+}

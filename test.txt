@@ -1,0 +1,5 @@
+Symmetra is one of the heroes in Overwatch. She is a light-bending architect who weaves her construction in order and perfection to create a better world.
+Symmetra utilizes her light-bending Photon Projector to dispatch adversaries, shield her associates, construct teleportation pads and deploy particle-blasting Sentry Turrets.
+
+
+https://github.com/paulmillr/chokidar/blob/master/index.js
