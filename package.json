@@ -2,7 +2,7 @@
   "name": "symmetra",
   "version": "0.0.1",
   "description": "",
-  "main": "test.js",
+  "main": "index.js",
   "entryPoint": "index.js",
   "publishConfig": {
     "access": "public"
