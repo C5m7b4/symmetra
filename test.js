@@ -1,7 +1,9 @@
 const { fileExtensions, excludeFiles } = require("./utils");
 const Watcher = require("./index");
 
-const watchDir = "./watch";
+// to use this test file change the main in package.json to point to this file
+
+const watchDir = __dirname;
 
 function testWatcher() {
   console.log("testing");
