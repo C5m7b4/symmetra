@@ -4,13 +4,23 @@ const fs = require("fs");
 const path = require("path");
 
 class Watcher extends events.EventEmitter {
-  constructor(watchDir, fileExtensions, excludeFiles, interval, callback) {
+  constructor(
+    watchDir,
+    fileExtensions,
+    excludeFiles,
+    interval,
+    fileListCallback,
+    fileChangeCallback,
+    doWatch
+  ) {
     super();
     this._watchDir = watchDir;
     this._interval = interval;
     this._excludeFiles = excludeFiles;
     this._fileExtensions = fileExtensions;
-    this._callback = callback;
+    this._fileListCallback = fileListCallback;
+    this._fileChangeCallback = fileChangeCallback;
+    this._doWatch = doWatch;
   }
 
   containsExtension(extension) {
@@ -67,20 +77,23 @@ class Watcher extends events.EventEmitter {
   start() {
     var watcher = this;
     const list = watcher.getAllFiles(__dirname, ".js");
+    this._fileListCallback(list);
     if (list.length > 0) {
-      list.forEach((file) => {
-        fs.watchFile(
-          file,
-          {
-            bigint: false,
-            persistent: true,
-            interval: this._interval,
-          },
-          (curr, prev) => {
-            this._callback(file, curr, prev);
-          }
-        );
-      });
+      if (_this.doWatch) {
+        list.forEach((file) => {
+          fs.watchFile(
+            file,
+            {
+              bigint: false,
+              persistent: true,
+              interval: this._interval,
+            },
+            (curr, prev) => {
+              this._fileChangeCallback(file, curr, prev);
+            }
+          );
+        });
+      }
     } else {
       console.log("No Test files detected");
     }
