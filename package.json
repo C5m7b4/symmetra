@@ -2,18 +2,27 @@
   "name": "symmetra",
   "version": "0.0.7",
   "description": "",
-  "main": "index.js",
-  "entryPoint": "index.js",
+  "main": "index.ts",
+  "entryPoint": "index.ts",
   "publishConfig": {
     "access": "public"
   },
-  "homepage":"https://github.com/C5m7b4/symmetra",
-  "repository":{
-    "type":"git",
-    "url":"https://github.com/C5m7b4/symmetra"
+  "scripts": {
+    "build": "tsc"
+  },
+  "homepage": "https://github.com/C5m7b4/symmetra",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/C5m7b4/symmetra"
   },
   "keywords": [],
   "author": "C5m7b4",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^16.11.11",
+    "prettier": "^2.5.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  }
 }
