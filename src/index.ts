@@ -1,1 +1,6 @@
-export { Watcher, functionFileList, functionChange } from './symmetra';
+export {
+  Watcher,
+  functionFileList,
+  functionChange,
+  FileStats,
+} from './symmetra';

@@ -1,23 +1,28 @@
 import { fileExtensions, excludeFiles } from './utils';
-import { Watcher, functionFileList, functionChange } from './src/index';
+import {
+  Watcher,
+  functionFileList,
+  functionChange,
+  FileStats,
+} from './src/index';
 
 // to use this test file change the main in package.json to point to this file
 
 const watchDir = __dirname;
 const doWatch = true;
 
-const logFiles: (f: string[]) => void = (f: string[]) => {
+const logFiles: functionFileList = (f: string[]) => {
   console.log(f);
 };
 
-const logChanges: (f: string, curr: any, prev: any) => void = (
+const logChanges: functionChange = (
   f: string,
-  curr: any,
-  prev: any
+  curr: FileStats,
+  prev: FileStats
 ) => {
   console.log(f);
-  console.log(curr);
-  console.log(prev);
+  console.log(curr.mtime);
+  console.log(prev.mtime);
 };
 
 function testWatcher() {

@@ -5,8 +5,14 @@ import util from 'util';
 import fs from 'fs';
 import path from 'path';
 
+export interface FileStats {
+  size: number;
+  mtime: Date;
+  atime: Date;
+}
+
 export type functionFileList = (s: string[]) => void;
-export type functionChange = (f: string, c: string, p: string) => void;
+export type functionChange = (f: string, c: FileStats, p: FileStats) => void;
 
 export class Watcher extends events.EventEmitter {
   _watchDir: string;
@@ -103,7 +109,7 @@ export class Watcher extends events.EventEmitter {
               persistent: true,
               interval: this._interval,
             },
-            (curr: any, prev: any) => {
+            (curr: FileStats, prev: FileStats) => {
               this._fileChangeCallback(file, curr, prev);
             }
           );
