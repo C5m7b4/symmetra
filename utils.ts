@@ -1,4 +1,4 @@
-export const fileExtensions: string[] = ['test.js', 'spec.js'];
+export const fileExtensions: string[] = ['ts.js', 'sc.js'];
 export const excludeFiles: string[] = [
   '.git',
   'bin',
@@ -7,4 +7,7 @@ export const excludeFiles: string[] = [
   'package.json',
   'package-lock.json',
   '.github',
+  'build',
+  '.vscode',
+  'docs',
 ];
