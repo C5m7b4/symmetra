@@ -1,7 +1,7 @@
-import { FSWatcher } from 'fs';
+// import { FSWatcher } from 'fs';
 
 import events from 'events';
-import util from 'util';
+// import util from 'util';
 import fs from 'fs';
 import path from 'path';
 
@@ -33,8 +33,8 @@ export class Watcher extends events.EventEmitter {
   private _interval: number;
   private _excludeFiles: string[];
   private _fileExtensions: string[];
-  private _fileListCallback: any;
-  private _fileChangeCallback: any;
+  private _fileListCallback: functionFileList;
+  private _fileChangeCallback: functionChange;
   private _doWatch: boolean;
 
   /**
@@ -72,7 +72,7 @@ export class Watcher extends events.EventEmitter {
    * @returns
    */
   containsExtension(extension: string): boolean {
-    for (var i = 0; i < this._fileExtensions.length; i++) {
+    for (let i = 0; i < this._fileExtensions.length; i++) {
       if (this._fileExtensions[i] === extension) {
         return true;
       }
@@ -87,8 +87,8 @@ export class Watcher extends events.EventEmitter {
    * @returns
    */
   testFile(filename: string): boolean {
-    var pos = filename.indexOf('.');
-    var test = filename.substr(pos + 1);
+    const pos = filename.indexOf('.');
+    const test = filename.substr(pos + 1);
     if (this.containsExtension(test)) {
       return true;
     } else {
@@ -119,7 +119,7 @@ export class Watcher extends events.EventEmitter {
     for (let i = 0; i < files.length; i++) {
       const filename = files[i];
       if (!this._excludeFiles.includes(filename)) {
-        let file = path.join(dir, filename);
+        const file = path.join(dir, filename);
         if (fs.statSync(file).isDirectory()) {
           try {
             result = this.getAllFiles(file, extn, fs.readdirSync(file), result);
@@ -142,7 +142,8 @@ export class Watcher extends events.EventEmitter {
    * Start the Watcher
    */
   start(): void {
-    var watcher = this;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const watcher = this;
     const list = watcher.getAllFiles(this._watchDir, '.js');
     this._fileListCallback(list);
     if (list.length > 0) {
