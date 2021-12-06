@@ -8,7 +8,13 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc"
+    "check-types":"tsc --noEmit",
+    "build": "tsc",
+    "test":"jest",
+    "test:coverage":"jest --clearCache && jest --coverage",
+    "lint":"eslint 'src/**/*.ts",
+    "build-docs":"typedoc",
+    "serve-docs":"npm run build-docs && serve docs"
   },
   "homepage": "https://github.com/C5m7b4/symmetra",
   "repository": {
@@ -22,7 +28,9 @@
   "devDependencies": {
     "@types/node": "^16.11.11",
     "prettier": "^2.5.0",
+    "serve": "^13.0.2",
     "ts-node": "^10.4.0",
+    "typedoc": "^0.22.10",
     "typescript": "^4.5.2"
   }
 }

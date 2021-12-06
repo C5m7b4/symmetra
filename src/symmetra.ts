@@ -5,24 +5,48 @@ import util from 'util';
 import fs from 'fs';
 import path from 'path';
 
+/**
+ * FileStats interface export
+ */
 export interface FileStats {
   size: number;
   mtime: Date;
   atime: Date;
 }
 
+/**
+ * functionFileList
+ */
 export type functionFileList = (s: string[]) => void;
+
+/**
+ * functionChange
+ */
 export type functionChange = (f: string, c: FileStats, p: FileStats) => void;
 
+/**
+ * The Watcher class will allow you to pick files with certain
+ * extensions and then alternatively watch these files for changes
+ */
 export class Watcher extends events.EventEmitter {
-  _watchDir: string;
-  _interval: number;
-  _excludeFiles: string[];
-  _fileExtensions: string[];
-  _fileListCallback: any;
-  _fileChangeCallback: any;
-  _doWatch: boolean;
+  private _watchDir: string;
+  private _interval: number;
+  private _excludeFiles: string[];
+  private _fileExtensions: string[];
+  private _fileListCallback: any;
+  private _fileChangeCallback: any;
+  private _doWatch: boolean;
 
+  /**
+   * Constructor Method
+   * @param watchDir
+   * @param fileExtensions
+   * @param excludeFiles
+   * @param interval
+   * @param fileListCallback
+   * @param fileChangeCallback
+   * @param doWatch
+   */
   constructor(
     watchDir: string,
     fileExtensions: string[],
@@ -42,6 +66,11 @@ export class Watcher extends events.EventEmitter {
     this._doWatch = doWatch;
   }
 
+  /**
+   * function to check if a file has a certain file extension or not
+   * @param extension
+   * @returns
+   */
   containsExtension(extension: string): boolean {
     for (var i = 0; i < this._fileExtensions.length; i++) {
       if (this._fileExtensions[i] === extension) {
@@ -51,6 +80,12 @@ export class Watcher extends events.EventEmitter {
     return false;
   }
 
+  /**
+   * get the extension from a filename to use to test to see
+   * if this is an extension that the user wants or not
+   * @param filename
+   * @returns
+   */
   testFile(filename: string): boolean {
     var pos = filename.indexOf('.');
     var test = filename.substr(pos + 1);
@@ -61,6 +96,14 @@ export class Watcher extends events.EventEmitter {
     }
   }
 
+  /**
+   * Get list of files specified by the configs
+   * @param dir
+   * @param extn
+   * @param files
+   * @param result
+   * @returns
+   */
   getAllFiles(
     dir: string,
     extn: string,
@@ -95,6 +138,9 @@ export class Watcher extends events.EventEmitter {
     return result;
   }
 
+  /**
+   * Start the Watcher
+   */
   start(): void {
     var watcher = this;
     const list = watcher.getAllFiles(this._watchDir, '.js');
