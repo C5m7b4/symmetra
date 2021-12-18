@@ -1,10 +1,10 @@
 {
   "name": "symmetra",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "main": "index.ts",
   "entryPoint": "index.ts",
-  "types":"./build/symmetra.d.ts",
+  "types": "./build/symmetra.d.ts",
   "publishConfig": {
     "access": "public"
   },
