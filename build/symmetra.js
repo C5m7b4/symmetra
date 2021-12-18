@@ -1,11 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Watcher = void 0;
-const events = require('events');
-const util = require('util');
-const fs = require('fs');
-const path = require('path');
-class Watcher extends events.EventEmitter {
+const events_1 = __importDefault(require("events"));
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+class Watcher extends events_1.default.EventEmitter {
     constructor(watchDir, fileExtensions, excludeFiles, interval, fileListCallback, fileChangeCallback, doWatch) {
         super();
         this._watchDir = watchDir;
@@ -17,7 +19,7 @@ class Watcher extends events.EventEmitter {
         this._doWatch = doWatch;
     }
     containsExtension(extension) {
-        for (var i = 0; i < this._fileExtensions.length; i++) {
+        for (let i = 0; i < this._fileExtensions.length; i++) {
             if (this._fileExtensions[i] === extension) {
                 return true;
             }
@@ -25,8 +27,8 @@ class Watcher extends events.EventEmitter {
         return false;
     }
     testFile(filename) {
-        var pos = filename.indexOf('.');
-        var test = filename.substr(pos + 1);
+        const pos = filename.indexOf('.');
+        const test = filename.substr(pos + 1);
         if (this.containsExtension(test)) {
             return true;
         }
@@ -35,7 +37,7 @@ class Watcher extends events.EventEmitter {
         }
     }
     getAllFiles(dir, extn, files, result) {
-        files = files || fs.readdirSync(dir);
+        files = files || fs_1.default.readdirSync(dir);
         result = result || [];
         if (!files) {
             return [];
@@ -43,10 +45,10 @@ class Watcher extends events.EventEmitter {
         for (let i = 0; i < files.length; i++) {
             const filename = files[i];
             if (!this._excludeFiles.includes(filename)) {
-                let file = path.join(dir, filename);
-                if (fs.statSync(file).isDirectory()) {
+                const file = path_1.default.join(dir, filename);
+                if (fs_1.default.statSync(file).isDirectory()) {
                     try {
-                        result = this.getAllFiles(file, extn, fs.readdirSync(file), result);
+                        result = this.getAllFiles(file, extn, fs_1.default.readdirSync(file), result);
                     }
                     catch (error) {
                         console.log(error);
@@ -63,13 +65,13 @@ class Watcher extends events.EventEmitter {
         return result;
     }
     start() {
-        var watcher = this;
+        const watcher = this;
         const list = watcher.getAllFiles(this._watchDir, '.js');
         this._fileListCallback(list);
         if (list.length > 0) {
             if (this._doWatch) {
                 list.forEach((file) => {
-                    fs.watchFile(file, {
+                    fs_1.default.watchFile(file, {
                         bigint: false,
                         persistent: true,
                         interval: this._interval,

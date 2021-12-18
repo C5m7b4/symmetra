@@ -19,13 +19,13 @@ const logChanges: functionChange = (
   f: string,
   curr: FileStats,
   prev: FileStats
-) => {
+): void => {
   console.log(f);
   console.log(curr.mtime);
   console.log(prev.mtime);
 };
 
-function testWatcher() {
+function testWatcher(): void {
   console.log('testing');
   const watcher = new Watcher(
     watchDir,
