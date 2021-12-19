@@ -4,7 +4,7 @@ import {
   functionFileList,
   functionChange,
   FileStats,
-} from './src/index';
+} from './dist/index';
 
 // to use this test file change the main in package.json to point to this file
 

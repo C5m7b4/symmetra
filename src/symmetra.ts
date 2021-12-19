@@ -1,7 +1,4 @@
-// import { FSWatcher } from 'fs';
-
 import events from 'events';
-// import util from 'util';
 import fs from 'fs';
 import path from 'path';
 
