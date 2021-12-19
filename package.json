@@ -2,9 +2,9 @@
   "name": "symmetra",
   "version": "0.0.11",
   "description": "",
-  "main": "./build/index.js",
-  "entryPoint": "./build/index.js",
-  "types": "./build/symmetra.d.js",
+  "main": "./dist/index.js",
+  "entryPoint": "./dist/index.js",
+  "types": "./dist/symmetra.d.js",
   "files": [
     "dist"
   ],
